@@ -56,6 +56,8 @@ if args.receive == True:
 	print messageText
 	print
 
+	raw_input("Press enter to continue...")
+
 elif args.send == True:
 	publicKeyText = raw_input("Copy & paste the receiver's ID: ")
 
@@ -83,3 +85,5 @@ elif args.send == True:
 	print encryptedText
 	print
 	
+	raw_input("Press enter to continue...")
+
