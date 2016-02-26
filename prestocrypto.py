@@ -32,7 +32,7 @@ if not (args.receive or args.send):
 		sys.exit(2)
 
 if args.receive == True:
-	print "Generating a new ID for you to send to the person you are receiving a message from..."
+	print "Generating a new ID for you to send to the person who is sending you a message..."
 
 	random_generator = Random.new().read
 	key = RSA.generate(2048, random_generator)
