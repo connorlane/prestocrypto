@@ -16,7 +16,7 @@ if args.send == True:
 	print "Generating a new ID for you to send to the person you are receiving a message from..."
 
 	random_generator = Random.new().read
-	key = RSA.generate(4096, random_generator)
+	key = RSA.generate(2048, random_generator)
 
 	publicKey = key.publickey()
 	publicKeyNum = publicKey.exportKey('DER')
