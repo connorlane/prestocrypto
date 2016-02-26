@@ -16,11 +16,11 @@ if args.send == True:
 	print "Generating a new ID for you to send to the person you are receiving a message from..."
 
 	random_generator = Random.new().read
-	key = RSA.generate(2048, random_generator)
+	key = RSA.generate(4096, random_generator)
 
 	publicKey = key.publickey()
 	publicKeyNum = publicKey.exportKey('DER')
-	publicKeyText = base64.b64encode(publicKeyNum)
+	publicKeyText = publicKeyNum.encode("hex")
 
 	print
 	print "Done! Ok, send this ID to the person who wants to send you a secret message: "
@@ -29,7 +29,7 @@ if args.send == True:
 	print
 
 	encryptedText = raw_input("When they send you the encrypted message, paste it here: ")
-	encryptedNum = base64.b64decode(encryptedText)
+	encryptedNum = encryptedText.decode("hex")
 	messageText = key.decrypt(encryptedNum)
 
 	print
@@ -38,14 +38,14 @@ if args.send == True:
 	print
 
 elif args.receive == True:
-	publicKeyText = raw_input("Your friend's ID: ")
+	publicKeyText = raw_input("Copy & paste the sender's ID: ")
 
-	publicKeyNum = base64.b64decode(publicKeyText)
+	publicKeyNum = publicKeyText.decode("hex")
 
 	try:	
 		publicKey = RSA.importKey(publicKeyNum)
 	except:
-		print "Didn't understand that ID! Ask your friend for his/her ID. Rerun this program to try again"
+		print "Didn't understand that ID! Ask the sender for his/her ID. Rerun this program to try again"
 		sys.exit(2)
 
 	print
@@ -56,7 +56,7 @@ elif args.receive == True:
 		sys.exit(2)
 
 	encryptedNum = publicKey.encrypt(messageText, "Whales Do Not Exist")[0]
-	encryptedText = base64.b64encode(encryptedNum)
+	encryptedText = encryptedNum.encode("hex")
 
 	print
 	print "Here is the encrypted message: "
