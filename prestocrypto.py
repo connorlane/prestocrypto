@@ -6,13 +6,32 @@ import sys
 import base64
 
 parser = argparse.ArgumentParser(description='Simple encryption/decryption tool.')
-group = parser.add_mutually_exclusive_group(required=True)
+group = parser.add_mutually_exclusive_group(required=False)
 group.add_argument('--send', action="store_true")
 group.add_argument('--receive', action="store_true")
 
 args = parser.parse_args()
 
-if args.send == True:
+if not (args.receive or args.send):
+	print
+	sr = raw_input("Are you sending a message or receiving a message? Type S or R: ")
+	if 's' in sr.lower() and not 'r' in sr.lower():
+		args.send = True
+		print
+		print "You're sending a message. Ok."
+		print
+	elif 'r' in sr.lower() and not 's' in sr.lower():
+		args.receive = True
+		print
+		print "You're receiving a message. Ok."
+		print
+	else:
+		print
+		print "I didn't understand that input. Next time type S or R, or use the command line arguments."
+		print
+		sys.exit(2)
+
+if args.receive == True:
 	print "Generating a new ID for you to send to the person you are receiving a message from..."
 
 	random_generator = Random.new().read
@@ -37,8 +56,8 @@ if args.send == True:
 	print messageText
 	print
 
-elif args.receive == True:
-	publicKeyText = raw_input("Copy & paste the sender's ID: ")
+elif args.send == True:
+	publicKeyText = raw_input("Copy & paste the receiver's ID: ")
 
 	publicKeyNum = publicKeyText.decode("hex")
 
